@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class LevelManager : MonoBehaviour
 {
@@ -30,10 +31,7 @@ public class LevelManager : MonoBehaviour
     private void CreateLevel() 
     {
 
-        string[] mapData = new string[] 
-        {
-            "0000", "1111", "0000", "0000"
-        };
+        string[] mapData = ReadLevelText();
 
         int mapX = mapData[0].ToCharArray().Length;
         int mapY = mapData.Length;
@@ -60,6 +58,15 @@ public class LevelManager : MonoBehaviour
 
         //Uses the newtile variable and the tile width to place a the next tile right next to the last
         newTile.transform.position = new Vector3(worldStart.x + (TileSize * x), worldStart.y - (TileSize * y), 0);
+    }
+
+    private string[] ReadLevelText()
+    {
+        TextAsset bindData = Resources.Load("Level") as TextAsset;
+
+        string data = bindData.text.Replace(Environment.NewLine, string.Empty);
+
+        return data.Split('-');
     }
 }
 
